@@ -1,7 +1,6 @@
 import pytest
 
 from src.Tests.test1.task1 import *
-import pytest
 
 
 def test_add_to_basket():

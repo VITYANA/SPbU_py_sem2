@@ -10,12 +10,12 @@ class Basket:
     def __init__(self) -> None:
         self.sum_cast: float = 0
         self.prods_count: int = 0
-        self.list: dict[str, [float, int, float]] = {}
+        self.list: dict = {}
 
 
 class Store:
-    def __init__(self, products: dict[str, [float, int, float]]):
-        self.all_products_list: dict[str, [float, int, float]] = products
+    def __init__(self, products: dict) -> None:
+        self.all_products_list: dict = products
         self.min_max = self.find_min_max()
 
     def add(self, basket: Basket, name: str, count: int) -> None:
@@ -39,12 +39,12 @@ class Store:
         self.all_products_list[name][1] += count
 
     @staticmethod
-    def sell(basket: Basket, client_money):
+    def sell(basket: Basket, client_money: int) -> str | ValueError:
         if client_money >= basket.sum_cast:
             return "Congrats, have a good day."
         raise ValueError("Not enough money.")
 
-    def find_min_max(self):
+    def find_min_max(self) -> list[dict]:
         max_rate, min_rate, max_cast, min_cast = -1, 6, -1, 999
         for i in self.all_products_list.values():
             now_rate, now_cast = i[0], i[2]
@@ -63,17 +63,17 @@ class Store:
             {k: v for k, v in self.all_products_list.items() if v[2] == max_cast},
         ]
 
-    def max_rate(self):
-        return self.min_max[1]
+    def max_rate(self) -> str:
+        return self.min_max[1][0]
 
-    def min_rate(self):
-        return self.min_max[0]
+    def min_rate(self) -> str:
+        return self.min_max[0][0]
 
-    def max_cast(self):
-        return self.min_max[3]
+    def max_cast(self) -> str:
+        return self.min_max[3][0]
 
-    def min_cast(self):
-        return self.min_max[2]
+    def min_cast(self) -> str:
+        return self.min_max[2][0]
 
 
 # some changes
