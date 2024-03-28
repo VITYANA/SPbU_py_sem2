@@ -74,3 +74,6 @@ class Store:
 
     def min_cast(self):
         return self.min_max[2]
+
+
+# some changes
