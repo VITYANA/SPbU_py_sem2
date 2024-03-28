@@ -56,10 +56,12 @@ class Store:
                 max_cast = now_cast
             if now_cast < min_cast:
                 min_cast = now_cast
-        return [{k: v for k, v in self.all_products_list.items() if v[0] == min_rate},
-                {k: v for k, v in self.all_products_list.items() if v[0] == max_rate},
-                {k: v for k, v in self.all_products_list.items() if v[2] == min_cast},
-                {k: v for k, v in self.all_products_list.items() if v[2] == max_cast}]
+        return [
+            {k: v for k, v in self.all_products_list.items() if v[0] == min_rate},
+            {k: v for k, v in self.all_products_list.items() if v[0] == max_rate},
+            {k: v for k, v in self.all_products_list.items() if v[2] == min_cast},
+            {k: v for k, v in self.all_products_list.items() if v[2] == max_cast},
+        ]
 
     def max_rate(self):
         return self.min_max[1]
