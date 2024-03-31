@@ -1,5 +1,5 @@
 from random import randint
-from typing import Generic, MutableMapping, Optional, Set, TypeVar
+from typing import Generic, Iterator, MutableMapping, Optional, Set, Tuple, TypeVar
 
 Key = TypeVar("Key")
 Value = TypeVar("Value")
@@ -21,7 +21,7 @@ class Node(Generic[Key, Value]):
 
 
 class Treap(MutableMapping):
-    def __init__(self, root=None) -> None:
+    def __init__(self, root: Optional[Node] = None) -> None:
         self.root: Optional[Node] = root
         self.length: int = 0
 
@@ -29,7 +29,7 @@ class Treap(MutableMapping):
         return self.length
 
     @staticmethod
-    def split(root: Node, key: Key) -> tuple[Optional[Node], Optional[Node]]:
+    def split(root: Optional[Node], key: Key) -> Tuple[Optional[Node], Optional[Node]]:
         if root is None:
             return None, None
         if root.key < key:
@@ -54,7 +54,7 @@ class Treap(MutableMapping):
             second_root.left = Treap.merge(first_root, second_root.left)
             return second_root
 
-    def __delitem__(self, key: Key) -> None:
+    def __delitem__(self, key: int) -> None:
         first_treap, second_treap = self.split(self.root, key)
         node_to_del, new_second_treap = self.split(second_treap, key + 1)
         if node_to_del is None:
@@ -63,8 +63,8 @@ class Treap(MutableMapping):
         self.root = self.merge(first_treap, new_second_treap)
         self.length -= 1
 
-    def __getitem__(self, key) -> Value:
-        def find(root, key):
+    def __getitem__(self, key: int) -> Optional[Value]:
+        def find(root: Optional[Node], key: Key) -> Optional[Value]:
             if root is not None:
                 if root.key == key:
                     return root.value
@@ -86,7 +86,7 @@ class Treap(MutableMapping):
             self.root = Node(key, value)
         self.length += 1
 
-    def __iter__(self) -> iter:
+    def __iter__(self) -> Iterator:
         def iterate(node: Optional[Node], output: Set[Key]) -> set:
             if node is not None:
                 output.add(node.key)
