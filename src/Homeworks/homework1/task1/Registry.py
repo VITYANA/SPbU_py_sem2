@@ -1,13 +1,7 @@
 import typing
 from collections import Counter, OrderedDict, defaultdict
 
-USER_TEXT = (
-    "Registry with ParentClass 'dict', default=dict and Elements:\n"
-    "\t1)Counter\n"
-    "\t2)OrderedDict\n"
-    "\t3)defaultdict\n"
-    "Enter class name: "
-)
+
 T = typing.TypeVar("T")
 
 

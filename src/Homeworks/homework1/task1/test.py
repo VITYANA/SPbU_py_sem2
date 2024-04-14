@@ -1,7 +1,5 @@
 from typing import Mapping
-
 import pytest
-
 from src.Homeworks.homework1.task1.Registry import *
 
 MAPPING_REGISTRY = Registry[Mapping]()
