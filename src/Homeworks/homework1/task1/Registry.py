@@ -1,7 +1,6 @@
 import typing
 from collections import Counter, OrderedDict, defaultdict
 
-
 T = typing.TypeVar("T")
 
 

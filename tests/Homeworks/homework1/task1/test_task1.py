@@ -1,5 +1,7 @@
 from typing import Mapping
+
 import pytest
+
 from src.Homeworks.homework1.task1.Registry import *
 
 MAPPING_REGISTRY = Registry[Mapping]()
@@ -38,15 +40,15 @@ class Cartesian_tree(Mapping):
 
 def test_register():
     assert (
-        MAPPING_REGISTRY.registry["avl_tree"] == AVL_tree
-        and MAPPING_REGISTRY_default.registry["cartesian_tree"] == Cartesian_tree
-        and MAPPING_REGISTRY_default.default == dict
+        isinstance(MAPPING_REGISTRY.registry["avl_tree"](), AVL_tree)
+        and isinstance(MAPPING_REGISTRY_default.registry["cartesian_tree"](), Cartesian_tree)
+        and isinstance(MAPPING_REGISTRY_default.default(), dict)
     )
 
 
 def test_dispatch():
     assert (
-        MAPPING_REGISTRY.dispatch("avl_tree") == AVL_tree
+        MAPPING_REGISTRY.dispatch("avl_tree")() == AVL_tree
         and MAPPING_REGISTRY_default.dispatch("cartesian_tree") == Cartesian_tree
         and MAPPING_REGISTRY_default.dispatch("missed_name") == dict,
     )
