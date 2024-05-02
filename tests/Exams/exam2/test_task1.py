@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-from src.Tests.test2.Model import *
+from src.Exams.exam2.Model import *
 
 parser = HTMLParser()
 
