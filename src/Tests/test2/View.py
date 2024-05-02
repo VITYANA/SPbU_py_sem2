@@ -1,4 +1,4 @@
-from tkinter import ttk
+from tkinter import Tk, ttk
 from tkinter.scrolledtext import ScrolledText
 
 
@@ -8,8 +8,8 @@ class MainView(ttk.Frame):
     RECENT = "Show recent quotes"
     BEST = "Show best quotes"
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def __init__(self, root: Tk) -> None:
+        super().__init__(root)
 
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)

@@ -1,13 +1,15 @@
+from typing import Any, List
+
 import requests
 from bs4 import BeautifulSoup
 
 
 class HTMLParser:
     @staticmethod
-    def get_text_page(url: str):
+    def get_text_page(url: str) -> str:
         return requests.get(url).text
 
-    async def parse(self, url: str, name: str, limit: int):
+    async def parse(self, url: str, name: str, limit: int) -> List[Any]:
         soup = BeautifulSoup(self.get_text_page(url), "html.parser")
         for br in soup("br"):
             br.replace_with("\n")
