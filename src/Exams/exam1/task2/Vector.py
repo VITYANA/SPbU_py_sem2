@@ -63,5 +63,5 @@ class Vector(Generic[T]):
         b1, b2, b3 = second.coordinates[0], second.coordinates[1], second.coordinates[2]
         return Vector([a2 * b3 - a3 * b2, a3 * b1 - a1 * b3, a1 * b2 - a2 * b1])
 
-    def __is_null__(self) -> bool:
+    def is_null(self) -> bool:
         return not any(self.coordinates)

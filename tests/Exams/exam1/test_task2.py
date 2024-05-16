@@ -29,6 +29,12 @@ def test_vector_differ(first_coord, second_coord, expected):
     assert sum_vector.coordinates == expected
 
 
+def test_is_null():
+    assert Vector([0, 0, 0]).is_null() is True
+    assert Vector([0, 0]).is_null() is True
+    assert Vector([0]).is_null() is True
+
+
 @pytest.mark.parametrize(
     "first_coord, second_coord, expected",
     (([1, 2, 3], [1, 2, 3], 14), ([3, 15, 9], [5, 7, 12], 228), ([-3, -300, 9], [120, 16, 82], -4422)),
@@ -73,13 +79,13 @@ def test_scalar_error():
         vector1.scalar_product(vector2)
 
 
-def test_vector_error_not_3_dimension():
+def test_vector_product_error_not_3_dimension():
     vector1, vector2 = Vector([1, 2]), Vector([1, 2])
     with pytest.raises(DimensionError):
         vector1.vector_product(vector2)
 
 
-def test_vector_error_different_dimensions():
+def test_vector_product_error_different_dimensions():
     vector1, vector2 = Vector([1, 2, 3]), Vector([1, 2])
     with pytest.raises(DimensionError):
         vector1.vector_product(vector2)
