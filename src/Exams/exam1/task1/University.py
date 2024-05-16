@@ -103,22 +103,3 @@ class University:
             for k, v in course.items():
                 marks.append({k.name: v})
         return marks
-
-
-# university = University()
-# student1 = Student("Vasya")
-# student2 = Student("Oleg")
-# teacher1 = Teacher("Maksim Maksim")
-# teacher2 = Teacher("Andrey Nikolaevich")
-# course1 = Course("Matan")
-# course2 = Course("ANT")
-# university.add_student(student1)
-# university.add_student(student2)
-# university.add_teacher(teacher1)
-# university.add_teacher(teacher2)
-# university.add_course(course1)
-# university.add_course(course2)
-# university.add_student_to_course("Vasya", 4, "ANT")
-# university.add_student_to_course("Vasya", 5, "Matan")
-# print(university.get_student_marks("Vasya"))
-# print(university.get_student_courses("Vasya"))
