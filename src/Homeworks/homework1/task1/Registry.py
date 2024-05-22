@@ -11,11 +11,10 @@ class Registry(typing.Generic[T]):
 
     def register(self, name: str) -> typing.Callable[[typing.Type[T]], typing.Type[T]]:
         def _add(cls: typing.Type[T]) -> typing.Type[T]:
+            if name in self.registry:
+                raise ValueError(f"Name {name} already in registry.")
             self.registry[name] = cls
             return cls
-
-        if name in self.registry:
-            raise ValueError(f"Name {name} already in registry.")
         return _add
 
     def dispatch(self, name: str) -> ValueError | typing.Type[T]:
