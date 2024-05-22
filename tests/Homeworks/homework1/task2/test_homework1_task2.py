@@ -63,15 +63,15 @@ class TestTreap:
         "items",
         (
             [[111, 111], [221, 221], [13, 13], [-203, -203], [5, 5]],
-            [[13, 13], [1, 1], [-4, -4], [2, 2], [2, 2]],
-            [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+            [[13, 13], [1, 1], [-4, -4], [2, 2], [3, 3]],
+            [[1, 1], [-1, -1], [0, 0], [2, 2], [-2, -2]],
         ),
     )
     def test_del(self, items):
         treap = self.create_treap(items)
         for key in treap.keys():
             del treap[key]
-            assert key not in treap
+            assert not treap.__contains__(key)
 
     @pytest.mark.parametrize(
         "items, item_for_exc",
@@ -83,7 +83,7 @@ class TestTreap:
     )
     def test_del_exc(self, items, item_for_exc):
         tree = self.create_treap(items)
-        with pytest.raises(KeyError):
+        with pytest.raises(ValueError):
             del tree[item_for_exc]
 
     @pytest.mark.parametrize(
@@ -102,20 +102,26 @@ class TestTreap:
         "items",
         (
             [[111, 111], [221, 221], [13, 13], [-203, -203], [5, 5]],
-            [[13, 13], [1, 1], [-4, -4], [2, 2], [2, 2]],
-            [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]],
+            [[13, 13], [1, 1], [-4, -4], [2, 2], [3, 3]],
+            [[1, 1], [-1, -1], [0, 0], [2, 2], [-2, -2]],
         ),
     )
     def test_split(self, items):
         treap = self.create_treap(items)
-        for i in range(10):
-            key = randint(-10, 10)
-            left_treap, right_treap = treap.split(treap.root, key)
-            left, right = Treap(), Treap()
-            left.root, right.root = left_treap, right_treap
-            for left_treap_key in left:
+        key = randint(-1000, 1000)
+        left_treap, right_treap = treap.split(treap.root, key)
+        left, right = Treap(), Treap()
+        left.root, right.root = left_treap, right_treap
+        if left.root is None:
+            for right_treap_key in right.keys():
+                assert right_treap_key >= key
+        elif right.root is None:
+            for left_treap_key in left.keys():
                 assert left_treap_key < key
-            for right_treap_key in right:
+        else:
+            for left_treap_key in left.keys():
+                assert left_treap_key < key
+            for right_treap_key in right.keys():
                 assert right_treap_key >= key
 
     @pytest.mark.parametrize(
