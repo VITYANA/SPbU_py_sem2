@@ -15,6 +15,7 @@ class Registry(typing.Generic[T]):
                 raise ValueError(f"Name {name} already in registry.")
             self.registry[name] = cls
             return cls
+
         return _add
 
     def dispatch(self, name: str) -> ValueError | typing.Type[T]:
