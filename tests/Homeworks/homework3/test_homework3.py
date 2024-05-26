@@ -46,7 +46,15 @@ def test_get_readme(username, repo_name, expected):
             "SPBU_py_sem1",
             set(),
         ),
-        ("VITYANA", "SPbU_py_sem2", {"Final_test. Khanukaev Viktor", "Homework2. Khanukaev Viktor"}),
+        (
+            "VITYANA",
+            "SPbU_py_sem2",
+            {
+                "Final_test. Khanukaev Viktor",
+                "Homework2. Khanukaev Viktor",
+                "Homework3. Khanukaev Viktor",
+            },
+        ),
     ],
 )
 def test_get_pull_requests(username, repo_name, expected):
@@ -84,7 +92,16 @@ def test_get_pull_requests(username, repo_name, expected):
         (
             "VITYANA",
             "SPbU_py_sem2",
-            {"Final_exam", "Retest1.2", "Test2", "add_changes_for_repo", "homework2", "main", "test1_task1"},
+            {
+                "Final_exam",
+                "Retest1.2",
+                "Test2",
+                "add_changes_for_repo",
+                "homework2",
+                "homework3",
+                "main",
+                "test1_task1",
+            },
         ),
     ],
 )
