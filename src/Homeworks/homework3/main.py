@@ -18,10 +18,7 @@ def parse_args() -> tuple[str, str]:
 
 def write_info() -> str:
     result = (
-        "1) Get repository info \n"
-        "2) Get pull request info \n"
-        "3) Get history of commit from branch \n"
-        "4) Exit\n"
+        "1) Get repository info \n" "2) Get pull request info \n" "3) Get history of commit from branch \n" "4) Exit\n"
     )
     return result
 
