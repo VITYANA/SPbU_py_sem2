@@ -1,7 +1,7 @@
-import src.Homeworks.homework2.Actions as Actions
 from Performed_command_storage import PerformedCommandStorage
 
 import src.Homeworks.homework1.task1.Registry as Registry
+import src.Homeworks.homework2.Actions as Actions
 
 
 def write_info(act_registry: Registry.Registry) -> str:
