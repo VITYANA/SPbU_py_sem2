@@ -1,12 +1,12 @@
-import src.Homeworks.homework2.Actions as actions
+import src.Homeworks.homework2.Actions as Actions
 
 
 class PerformedCommandStorage:
     def __init__(self, numbers: list) -> None:
-        self.commands: list[actions.Action] = []
+        self.commands: list[Actions.Action] = []
         self.numbers: list = numbers
 
-    def apply(self, action: actions.Action) -> None:
+    def apply(self, action: Actions.Action) -> None:
         action.do(self.numbers)
         self.commands.append(action)
 

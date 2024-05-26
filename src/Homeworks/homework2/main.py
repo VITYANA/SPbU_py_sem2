@@ -1,4 +1,4 @@
-import Actions
+import src.Homeworks.homework2.Actions as Actions
 from Performed_command_storage import PerformedCommandStorage
 
 import src.Homeworks.homework1.task1.Registry as Registry
