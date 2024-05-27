@@ -18,7 +18,7 @@ class Registry(typing.Generic[T]):
 
         return _add
 
-    def dispatch(self, name: str) -> ValueError | typing.Type[T]:
+    def dispatch(self, name: str) -> typing.Type[T]:
         if name not in self.registry.keys():
             if self.default is None:
                 raise ValueError(f"Registry haven't class named {name}.")
