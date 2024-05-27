@@ -36,7 +36,7 @@ class ORM(type):
     def __init__(cls, name: str, bases: Any, dct: dict):
         all_branches = dict()
         for field_name, field_type in cls.__annotations__.items():
-            if type(field_type) is ORM:
+            if isinstance(field_type, ORM):
                 all_branches[field_name] = field_type
                 setattr(cls, field_name, None)
             else:
