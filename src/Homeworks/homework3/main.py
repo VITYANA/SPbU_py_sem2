@@ -24,7 +24,7 @@ def write_info() -> str:
 
 
 def write_user(user: User) -> str:
-    result = f"username: {user.login}\n" f"id: {user.id}\n" f"url: {user.url}"
+    result = f"username: {user.login}\nid: {user.id}\nurl: {user.url}"
     return result
 
 
@@ -32,7 +32,7 @@ def write_readme(readme: Readme) -> str:
     output_str = "Not found"
     if readme.name:
         readme_data = b64decode(readme.text).decode()
-        output_str = f"File name: {readme.name}\n" f"{str(readme_data)}"
+        output_str = f"File name: {readme.name}\n{str(readme_data)}"
         return output_str
     return output_str
 
@@ -51,16 +51,16 @@ def write_repository(repository: Repository, readme: Readme) -> str:
     return result
 
 
-def output_pull_info(pull: Pullrequest) -> str:
-    def output_reviewers(requested_reviewers: list[User]) -> str:
+def write_pull_info(pull: Pullrequest) -> str:
+    def write_reviewers(requested_reviewers: list[User]) -> str:
         result = ""
         for reviewer in requested_reviewers:
-            output_str = f"Reviewer username: {reviewer.login}" f"id: {reviewer.id}\n" f"Url to profile: {reviewer.url}"
+            output_str = f"Reviewer username: {reviewer.login}id: {reviewer.id}\nUrl to profile: {reviewer.url}"
             result += output_str + "\n"
         return result.rstrip("\n")
 
     owner_info = write_user(pull.owner)
-    reviewers_info = output_reviewers(pull.reviewers)
+    reviewers_info = write_reviewers(pull.reviewers)
     return (
         f"Pull name: {pull.title} \n"
         f"id: {pull.id}\n"
@@ -72,13 +72,13 @@ def output_pull_info(pull: Pullrequest) -> str:
     )
 
 
-def output_pr(pulls: list[Pullrequest]) -> str | None:
+def write_pr(pulls: list[Pullrequest]) -> str | None:
     for i, pull in enumerate(pulls):
         print(f"{i}) Pull name: {pull.title}")
     user_choice = input("Choose a pull's number: ")
     try:
         pull_number = int(user_choice)
-        return output_pull_info(pulls[pull_number])
+        return write_pull_info(pulls[pull_number])
     except Exception:
         print("Incorrect number of pull request\n")
 
@@ -102,7 +102,7 @@ def write_commits(branch: Branch) -> str | None:
         for message in messages:
             message_text += f"{message}\n"
 
-        result += f"commit: {current_commit.id} \n" f"\n" f"{message_text}" f"\n"
+        result += f"commit:\n{current_commit.id}\n{message_text}"
 
     json_dict = get_commit_from_url(last_commit_url)
     last_commit_obj = Commit.parse_json(json_dict)
@@ -148,26 +148,28 @@ def main(username: str, repository: str) -> None:
     print(info)
     while user_input != "4":
         user_input = input("Enter number of request: ")
-        if user_input == "1":
-            repo = Repository.parse_json(get_repo(username, repository))
-            readme = Readme.parse_json(get_readme(username, repository))
-            print(write_repository(repo, readme))
+        if user_input not in "1234":
+            print("incorrect number")
+            continue
+        match user_input:
+            case "1":
+                repo = Repository.parse_json(get_repo(username, repository))
+                readme = Readme.parse_json(get_readme(username, repository))
+                print(write_repository(repo, readme))
 
-        elif user_input == "2":
-            pulls = [Pullrequest.parse_json(obj) for obj in get_pull_requests(username, repository)]
-            if len(pulls) != 0:
-                print(output_pr(pulls))
-            else:
-                print("Can't find any pull requests")
+            case "2":
+                pulls = [Pullrequest.parse_json(obj) for obj in get_pull_requests(username, repository)]
+                if len(pulls) != 0:
+                    print(write_pr(pulls))
+                else:
+                    print("Can't find any pull requests")
 
-        elif user_input == "3":
-            branches = [Branch.parse_json(obj) for obj in get_branches(username, repository)]
-            print(write_branches(branches))
-        elif user_input == "4":
-            print("Ending programme")
-            break
-        else:
-            print("Incorrect number")
+            case "3":
+                branches = [Branch.parse_json(obj) for obj in get_branches(username, repository)]
+                print(write_branches(branches))
+            case "4":
+                print("Ending programme")
+                break
 
 
 if __name__ == "__main__":
