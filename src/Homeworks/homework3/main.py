@@ -142,32 +142,33 @@ def get_branches(username: str, repo_name: str) -> list[dict[str, Any]]:
     return repo_response.json()
 
 
-def main() -> None:
-    args = parse_args()
+def main(username: str, repository: str) -> None:
     user_input = ""
     info = write_info()
     print(info)
     while user_input != "4":
+        user_input = input("Enter number of request: ")
         if user_input == "1":
-            repo = Repository.parse_json(get_repo(*args))
-            readme = Readme.parse_json(get_readme(*args))
+            repo = Repository.parse_json(get_repo(username, repository))
+            readme = Readme.parse_json(get_readme(username, repository))
             print(write_repository(repo, readme))
 
         elif user_input == "2":
-            pulls = [Pullrequest.parse_json(obj) for obj in get_pull_requests(*args)]
+            pulls = [Pullrequest.parse_json(obj) for obj in get_pull_requests(username, repository)]
             if len(pulls) != 0:
                 print(output_pr(pulls))
             else:
                 print("Can't find any pull requests")
 
         elif user_input == "3":
-            branches = [Branch.parse_json(obj) for obj in get_branches(*args)]
+            branches = [Branch.parse_json(obj) for obj in get_branches(username, repository)]
             print(write_branches(branches))
         elif user_input == "4":
             print("Ending programme")
+            break
         else:
             print("Incorrect number")
 
 
 if __name__ == "__main__":
-    main()
+    main("VITYANA", "SPbU_py_sem2")

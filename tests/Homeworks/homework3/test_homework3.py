@@ -1,6 +1,84 @@
+import tempfile
+
 import pytest
 
+from src.Homeworks.homework3.Dataclasses import *
 from src.Homeworks.homework3.main import *
+from src.Homeworks.homework3.ORM import *
+
+
+@dataclass
+class Person(metaclass=ORM):
+    name: str
+    surname: str
+    age: int
+
+
+@dataclass
+class Worker(metaclass=ORM):
+    info: Person
+    profession: str
+
+
+@pytest.mark.parametrize(
+    "orm, data, keys, expected",
+    [
+        [
+            User,
+            {"login": "Vitya", "id": 22, "url": "http://pepe"},
+            ["login", "id", "url"],
+            ["Vitya", 22, "http://pepe"],
+        ],
+        [Readme, {"name": "read", "text": "me"}, ["name", "text"], ["read", "me"]],
+    ],
+)
+def test_parse_json(orm: ORM, data, keys, expected):
+    current = orm.parse_json(data)
+    assert [getattr(current, key) for key in keys] == expected
+
+
+@pytest.mark.parametrize(
+    "data,key,expected",
+    (
+        ({"profession": "economist", "info": {"name": "Albert"}}, "name", "Albert"),
+        ({"profession": "economist", "info": {"name": "Bob", "surname": "White", "age": 25}}, "age", 25),
+        (
+            {"profession": "economist", "info": {"name": "Chu", "surname": "Ling", "age": 27, "nick": "Greedy"}},
+            "surname",
+            "Ling",
+        ),
+    ),
+)
+def test_get_item_branching(data, key, expected):
+    current_orm = Worker.parse_json(data)
+    assert getattr(current_orm.info, key) == expected
+
+
+@pytest.mark.parametrize(
+    "orm,data,expected",
+    (
+        (
+            User,
+            {"login": "Vitya", "id": 22, "url": "http://pepe"},
+            {"login": "Vitya", "id": 22, "url": "http://pepe"},
+        ),
+        (
+            User,
+            {"login": "arseniy", "id": 12, "url": "http://doge"},
+            {"login": "arseniy", "id": 12, "url": "http://doge"},
+        ),
+        (
+            Worker,
+            {"profession": "economist", "info": {"name": "Bob", "surname": "White", "age": 25}},
+            {"profession": "economist", "info": {"name": "Bob", "surname": "White", "age": 25}},
+        ),
+    ),
+)
+def test_dump(orm, data, expected):
+    current_orm = orm.parse_json(data)
+    with tempfile.NamedTemporaryFile(mode="r+") as file:
+        dump_dataclass(current_orm, f"{file.name}")
+        assert expected == json.load(file)
 
 
 @pytest.mark.parametrize(
