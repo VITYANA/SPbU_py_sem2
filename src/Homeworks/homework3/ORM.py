@@ -13,23 +13,24 @@ def dump_dataclass(obj: Any, path: str) -> None:
 class Descriptor(Generic[T]):
     def __init__(self, key: str) -> None:
         self.key = key
-        self.value = None
 
     def __set__(self, instance: T, value: Any) -> None:
-        self.value = value
+        instance.__dict__[self.key] = value
 
     def __get__(self, instance: T, owner: Type[T]) -> None:
         if instance is None:
-            return
+            return self
         if not hasattr(instance, "__data__"):
             raise AttributeError("Data is missing")
-
-        if self.value is None:
-            new_value = instance.__data__.get(self.key, None)
+        value = instance.__data__.get(self.key, None)
+        if value is None:
+            json_dict = getattr(instance, "branch_name")
+            new_value = json_dict.get(self.key, None)
             if new_value is None:
                 raise AttributeError(f"No {self.key} in data")
-            self.value = new_value
-        return self.value
+            value = new_value
+            instance.__data__[self.key] = value
+        return value
 
 
 class ORM(type):

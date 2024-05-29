@@ -22,7 +22,7 @@ class Worker(metaclass=ORM):
 
 def test_nested():
     cur = Worker.parse_json({"info": {"name": "pip", "surname": "pop", "age": 3}, "profession": "developer"})
-    nested = getattr(cur, "info")
+    nested = cur.info
     assert isinstance(nested, Person)
     assert nested.name == "pip"
     assert nested.surname == "pop"
@@ -137,7 +137,6 @@ def test_get_readme(username, repo_name, expected):
             "VITYANA",
             "SPbU_py_sem2",
             {
-                "Final_test. Khanukaev Viktor",
                 "Homework3. Khanukaev Viktor",
             },
         ),
