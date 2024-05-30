@@ -73,7 +73,7 @@ class BFS:
                         if link.cur_url not in self.visited:
                             queue.put(link)
                             self.visited.add(link.cur_url)
-            raise ValueError(f"Can't find path with deep {deep}")
+            raise ValueError(f"Can not find path with deep {deep}")
 
 
 def main(links_path: list[str], deep: int, n_jobs: int, unique: bool) -> list[str]:
